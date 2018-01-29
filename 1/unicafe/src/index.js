@@ -52,15 +52,18 @@ const Statistics = (props) => {
   return (
     <div>
       <h2>Statistiikka</h2>
-      <p>Hyvää {props.good}</p>
-      <p>Neutraali {props.neutral}</p>
-      <p>Pahaa {props.bad}</p>
-      <p>Keskiarvo {score}</p>
-      <p>Positiivisia {positive}</p>
+      <Statistic text="Hyvää" value={props.good} />
+      <Statistic text="Neutraali" value={props.neutral} />
+      <Statistic text="Pahaa" value={props.bad} />
+      <Statistic text="Keskiarvo" value={score} />
+      <Statistic text="Positiivisia" value={positive} />
     </div>
   )
 }
 
+const Statistic = (props) => (
+  <p>{props.text}: {props.value}</p>
+)
 
 
 ReactDOM.render(
