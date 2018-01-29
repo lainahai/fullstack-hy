@@ -47,11 +47,24 @@ const VoteButton = (props) => (
 const Statistics = (props) => {
   const count = props.good + props.bad + props.neutral
   const score = (props.good - props.bad) / count
-  const positive = props.good / count
+  const positive = props.good / count * 100 + " %"
+
+  const Header = () => (
+    <h2>Statistiikka</h2>
+  )
+
+  if (count === 0){
+    return (
+      <div>
+        <Header />
+        <p>Yhtään palautetta ei annettu</p>
+      </div>
+    )
+  }
 
   return (
     <div>
-      <h2>Statistiikka</h2>
+      <Header />
       <Statistic text="Hyvää" value={props.good} />
       <Statistic text="Neutraali" value={props.neutral} />
       <Statistic text="Pahaa" value={props.bad} />
