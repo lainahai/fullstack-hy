@@ -74,17 +74,24 @@ const Statistics = (props) => {
   return (
     <div>
       <Header />
-      <Statistic text="Hyvää" value={props.good} />
-      <Statistic text="Neutraali" value={props.neutral} />
-      <Statistic text="Pahaa" value={props.bad} />
-      <Statistic text="Keskiarvo" value={score} />
-      <Statistic text="Positiivisia" value={positive} />
+      <table>
+        <tbody>
+          <Statistic text="Hyvää" value={props.good} />
+          <Statistic text="Neutraali" value={props.neutral} />
+          <Statistic text="Pahaa" value={props.bad} />
+          <Statistic text="Keskiarvo" value={score} />
+          <Statistic text="Positiivisia" value={positive} />
+        </tbody>
+      </table>
     </div>
   )
 }
 
 const Statistic = (props) => (
-  <p>{props.text}: {props.value}</p>
+  <tr>
+    <td>{props.text}</td>
+    <td>{props.value}</td>
+  </tr>
 )
 
 
