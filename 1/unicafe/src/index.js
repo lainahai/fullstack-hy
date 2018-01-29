@@ -12,26 +12,35 @@ class App extends React.Component {
     }
   }
 
-  voteGood = () => {
-    this.setState({ good: this.state.good + 1 })
+  // Jäi vähän epäselväksi että miten tämä oli tarkoitus tehdä, tässä ois nyt tämmönen.
+  // Ymmärsin varmaan väärin koska aikaisempi tapa oli huomattavasti selkeämpi, ks. edellinen commit.
+  vote = (type) => {
+    if (type === "good") {
+      return () => { 
+        this.setState({ good: this.state.good + 1 })
+      }
+    }
+    if (type === "bad") {
+      return () => { 
+        this.setState({ bad: this.state.bad + 1 })
+      }
+    }
+    if (type === "neutral") {
+      return () => { 
+        this.setState({ neutral: this.state.neutral + 1 })
+      }
+    }
   }
 
-  voteBad = () => {
-    this.setState({ bad: this.state.bad + 1 })
-  }
-
-  voteNeutral = () => {
-    this.setState({ neutral: this.state.neutral + 1 })
-  }
 
   render(){
     return(
       <div>
         <h1>Unicafe</h1>
         <h2>Anna palautetta</h2>
-        <VoteButton text="Hyvää" handleClick={this.voteGood} />
-        <VoteButton text="Neutraali" handleClick={this.voteNeutral} />
-        <VoteButton text="Pahaa" handleClick={this.voteBad} />
+        <VoteButton text="Hyvää" handleClick={this.vote("good")} />
+        <VoteButton text="Neutraali" handleClick={this.vote("neutral")} />
+        <VoteButton text="Pahaa" handleClick={this.vote("bad")} />
         <Statistics good={this.state.good} neutral={this.state.neutral} bad={this.state.bad} />
       </div>
     )
