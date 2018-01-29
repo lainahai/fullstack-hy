@@ -44,14 +44,22 @@ const VoteButton = (props) => (
   </button>
 )
 
-const Statistics = (props) => (
-  <div>
-    <h2>Statistiikka</h2>
-    <p>Hyvää {props.good}</p>
-    <p>Neutraali {props.neutral}</p>
-    <p>Pahaa {props.bad}</p>
-  </div>
-)
+const Statistics = (props) => {
+  const count = props.good + props.bad + props.neutral
+  const score = (props.good - props.bad) / count
+  const positive = props.good / count
+
+  return (
+    <div>
+      <h2>Statistiikka</h2>
+      <p>Hyvää {props.good}</p>
+      <p>Neutraali {props.neutral}</p>
+      <p>Pahaa {props.bad}</p>
+      <p>Keskiarvo {score}</p>
+      <p>Positiivisia {positive}</p>
+    </div>
+  )
+}
 
 
 
