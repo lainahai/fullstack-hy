@@ -83,9 +83,7 @@ const Button = (props) => {
 }
 
 const getIndexOfMaxValue = (arr) => (
-  // reduce would be faster but this breaks for some reason and I don't have time to figure it out
   arr.reduce( (maxSoFar, currentValue, index, array) => currentValue > array[maxSoFar] ? index : maxSoFar, 0 )
-  //arr.indexOf(Math.max(...arr))
 )
 
 const PopularAnecdote = (props) => {
