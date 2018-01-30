@@ -6,7 +6,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       selected: 0,
-      votes: []
+      votes: [0]
     }
   }
 
@@ -17,23 +17,24 @@ class App extends React.Component {
   }
 
   vote = (index) => {
-    const newVotes = this.state.votes.slice()
-    if(newVotes[index]) {
-      newVotes[index] += 1
-    } else {
-      newVotes[index] = 1
-    }
+    const newVotes = addVote(index, this.state.votes)
+
     return () => {
-      this.setState({ votes: newVotes })
+      this.setState({ 
+        votes: newVotes
+      })
     }
   }
+
 
   render() {
     return (
       <div>
+        <h1>Anecdotes</h1>
         <Anecdote anecdotes={anecdotes} selected={this.state.selected} votes={this.state.votes[this.state.selected]} /> 
         <Button text="Random" handleClick={this.getRandomAnecdote()}/>
         <Button text="Vote" handleClick={this.vote(this.state.selected)} />
+        <PopularAnecdote anecdotes={anecdotes} votes={this.state.votes} />
       </div>
     )
   }
@@ -48,9 +49,20 @@ const anecdotes = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+const addVote = (voted, votes) => {
+  const newVotes = votes.slice()
+  if(newVotes[voted]) {
+    newVotes[voted] += 1
+  } else {
+    newVotes[voted] = 1
+  }
+  return (newVotes)
+}
+
 const getRandom = (limit) => (
   Math.floor((Math.random() * anecdotes.length))
 )
+
 
 const Anecdote = (props) => {
   const voteCount = props.votes ? props.votes : 0
@@ -69,6 +81,31 @@ const Button = (props) => {
     </button>
   )
 }
+
+const getIndexOfMaxValue = (arr) => (
+  // reduce would be faster but this breaks for some reason and I don't have time to figure it out
+  arr.reduce( (maxSoFar, currentValue, index, array) => currentValue > array[maxSoFar] ? index : maxSoFar, 0 )
+  //arr.indexOf(Math.max(...arr))
+)
+
+const PopularAnecdote = (props) => {
+  const mostPopular = getIndexOfMaxValue(props.votes)
+  
+  if (props.votes[mostPopular] === 0){
+    return (
+      <div>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <h2>Anecdote with most votes</h2>
+      <Anecdote anecdotes={props.anecdotes} selected={mostPopular} votes={props.votes[mostPopular]} />
+    </div>
+  )
+}
+
 
 ReactDOM.render(
   <App anecdotes={anecdotes} />,
