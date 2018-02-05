@@ -49,6 +49,17 @@ class App extends React.Component {
     }
   }
 
+  deletePerson = (id, name) => {
+    if(window.confirm('Are you sure you want to delete ' + name)){
+      numberService
+        .deleteOne(id)
+        .then( response => {
+          const newPersons = this.state.persons.filter(person => person.id !== id)
+          this.setState({persons: newPersons})
+        })
+    }
+  }
+
   handleNameChange = (event) => {
     this.setState({ newName: event.target.value })
   }
@@ -95,7 +106,7 @@ class App extends React.Component {
             handleChange={this.handleFilterChange}
           />
           </div>
-       <Numerot persons={filteredPersons} />
+       <Numerot persons={filteredPersons} deletePerson={this.deletePerson.bind(this)} />
        </div>
     )
   }
