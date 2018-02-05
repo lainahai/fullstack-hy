@@ -28,19 +28,24 @@ class App extends React.Component {
 
   addPerson = (event) => {
     event.preventDefault()
-    const newPersons = this.state.persons.concat({
-      name: this.state.newName,
-      number: this.state.newNumber
-    })
 
     if(this.state.persons.find(person => person.name === this.state.newName)){
       alert('Henkilö '+ this.state.newName + ' on jo luettelossa')
     } else {
-    this.setState({ persons: newPersons,
-                    newName: '',
-                    newNumber: '',
-                    filter: ''
-                  })
+      const newPerson = { name: this.state.newName,
+                          number: this.state.newNumber
+                        }
+      
+      axios
+        .post('http://localhost:3001/persons', newPerson)
+        .then(response => {  
+          const newPersons = this.state.persons.concat(response.data)
+          this.setState({ persons: newPersons,
+                          newName: '',
+                          newNumber: '',
+                          filter: ''
+                        })
+        })
     }
   }
 
