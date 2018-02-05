@@ -15,10 +15,14 @@ class App extends React.Component {
     event.preventDefault()
     const newPersons = this.state.persons.concat({name: this.state.newName})
 
+    if(this.state.persons.find(person => person.name === this.state.newName)){
+      alert('Henkilö '+ this.state.newName + ' on jo luettelossa')
+    } else {
     this.setState({ persons: newPersons,
                     newName: ''
                   })
 
+    }
   }
 
   handleInputChange = (event) => {
