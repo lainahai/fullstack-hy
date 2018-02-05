@@ -25,12 +25,15 @@ class App extends React.Component {
       })
   }
 
-  showMessage(message) {
-    this.setState({message: message})
+  showMessage(message, error=false) {
+    this.setState({ message: message,
+                    error: error})
     setTimeout(() => {
       this.setState({message: null})
     }, 5000)
   }
+
+
 
   addPerson = (event) => {
     event.preventDefault()
@@ -51,6 +54,9 @@ class App extends React.Component {
               filter: ''
             })
             this.showMessage('Korvattiin ' + response.data.name)
+          })
+          .catch(error => {
+            this.showMessage('Valtiettavasti joku ehti jo poistaa henkilon ' + oldPerson.name, true)
           })
       }
     } else {
@@ -137,12 +143,16 @@ class App extends React.Component {
   }
 }
 
-const Notification = ({ message }) => {
+const Notification = ({ message, error }) => {
   if (message === null) {
     return null
   }
+  let className = 'success'
+  if(error) {
+    className = 'error'
+  }
   return (
-    <div className="success">
+    <div className={className}>
       {message}
     </div>
   )

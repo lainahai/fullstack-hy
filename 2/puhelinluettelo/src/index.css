@@ -8,3 +8,8 @@ body {
   padding: 15px;
   background-color: green;
 }
+
+.error {
+  padding: 15px;
+  background-color: red;
+}
