@@ -10,20 +10,26 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNumber: '',
-      filter: ''
+      filter: '',
+      message: null
     }
   }
 
   componentWillMount() {
-    console.log('Fetching data from server')
     numberService
       .getAll()
       .then(response => {
-        console.log(response.data)
         this.setState({
           persons: response.data
         })
       })
+  }
+
+  showMessage(message) {
+    this.setState({message: message})
+    setTimeout(() => {
+      this.setState({message: null})
+    }, 5000)
   }
 
   addPerson = (event) => {
@@ -44,6 +50,7 @@ class App extends React.Component {
               newNumber: '',
               filter: ''
             })
+            this.showMessage('Korvattiin ' + response.data.name)
           })
       }
     } else {
@@ -60,6 +67,7 @@ class App extends React.Component {
                           newNumber: '',
                           filter: ''
                         })
+          this.showMessage('Lisättiin ' + response.data.name )
         })
     }
   }
@@ -72,6 +80,7 @@ class App extends React.Component {
           const newPersons = this.state.persons.filter(person => person.id !== id)
           this.setState({persons: newPersons})
         })
+        this.showMessage('Poistettiin ' + name)
     }
   }
 
@@ -93,6 +102,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <Notification message={this.state.message} />
         <h3>Lisää uusi numero</h3>
         <form>
           <div>
@@ -125,6 +135,17 @@ class App extends React.Component {
        </div>
     )
   }
+}
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+  return (
+    <div className="success">
+      {message}
+    </div>
+  )
 }
 
 export default App
