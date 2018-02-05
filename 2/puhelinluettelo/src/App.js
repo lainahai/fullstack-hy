@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import axios from 'axios'
 import Numerot from './components/Numerot'
 import StateInput from './components/StateInput'
 
@@ -6,21 +7,30 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: [
-        { name: 'Arto Hellas',
-          phone: '050-1234567' }
-      ],
+      persons: [],
       newName: '',
-      newPhone: '',
+      newNumber: '',
       filter: ''
     }
+  }
+
+  componentWillMount() {
+    console.log('Fetching data from server')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log(response.data)
+        this.setState({
+          persons: response.data
+        })
+      })
   }
 
   addPerson = (event) => {
     event.preventDefault()
     const newPersons = this.state.persons.concat({
       name: this.state.newName,
-      phone: this.state.newPhone
+      number: this.state.newNumber
     })
 
     if(this.state.persons.find(person => person.name === this.state.newName)){
@@ -28,7 +38,7 @@ class App extends React.Component {
     } else {
     this.setState({ persons: newPersons,
                     newName: '',
-                    newPhone: '',
+                    newNumber: '',
                     filter: ''
                   })
     }
@@ -38,8 +48,8 @@ class App extends React.Component {
     this.setState({ newName: event.target.value })
   }
   
-  handlePhoneChange = (event) => {
-    this.setState({ newPhone: event.target.value })
+  handleNumberChange = (event) => {
+    this.setState({ newNumber: event.target.value })
   }
 
   handleFilterChange = (event) => {
@@ -64,8 +74,8 @@ class App extends React.Component {
            <div>
             numero:
             <StateInput 
-              value={this.state.newPhone} 
-              handleChange={this.handlePhoneChange} 
+              value={this.state.newNumber} 
+              handleChange={this.handleNumberChange} 
             />
           </div>
           <div>
