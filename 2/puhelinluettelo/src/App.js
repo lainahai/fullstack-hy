@@ -1,7 +1,7 @@
 import React from 'react'
-import axios from 'axios'
 import Numerot from './components/Numerot'
 import StateInput from './components/StateInput'
+import numberService from './services/numbers'
 
 class App extends React.Component {
   constructor(props) {
@@ -16,8 +16,8 @@ class App extends React.Component {
 
   componentWillMount() {
     console.log('Fetching data from server')
-    axios
-      .get('http://localhost:3001/persons')
+    numberService
+      .getAll()
       .then(response => {
         console.log(response.data)
         this.setState({
@@ -36,8 +36,8 @@ class App extends React.Component {
                           number: this.state.newNumber
                         }
       
-      axios
-        .post('http://localhost:3001/persons', newPerson)
+      numberService
+        .create(newPerson)
         .then(response => {  
           const newPersons = this.state.persons.concat(response.data)
           this.setState({ persons: newPersons,
