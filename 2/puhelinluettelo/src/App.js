@@ -5,28 +5,38 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [
-        { name: 'Arto Hellas' }
+        { name: 'Arto Hellas',
+          phone: '050-1234567' }
       ],
-      newName: ''
+      newName: '',
+      newPhone: ''
     }
   }
 
   addPerson = (event) => {
     event.preventDefault()
-    const newPersons = this.state.persons.concat({name: this.state.newName})
+    const newPersons = this.state.persons.concat({
+      name: this.state.newName,
+      phone: this.state.newPhone
+    })
 
     if(this.state.persons.find(person => person.name === this.state.newName)){
       alert('Henkilö '+ this.state.newName + ' on jo luettelossa')
     } else {
     this.setState({ persons: newPersons,
-                    newName: ''
+                    newName: '',
+                    newPhone: ''
                   })
 
     }
   }
 
-  handleInputChange = (event) => {
+  handleNameChange = (event) => {
     this.setState({ newName: event.target.value })
+  }
+  
+  handlePhoneChange = (event) => {
+    this.setState({ newPhone: event.target.value })
   }
 
   render() {
@@ -38,7 +48,14 @@ class App extends React.Component {
             nimi: 
             <input 
               value={this.state.newName} 
-              onChange={this.handleInputChange} 
+              onChange={this.handleNameChange} 
+            />
+          </div>
+           <div>
+            numero:
+            <input 
+              value={this.state.newPhone} 
+              onChange={this.handlePhoneChange} 
             />
           </div>
           <div>
@@ -46,15 +63,22 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-          <ul>
-            {this.state.persons.map(person => <Person key={person.name} name={person.name}/>)}
-          </ul>
+          <table>
+            <tbody>
+              {this.state.persons.map(person => <Person key={person.name} person={person}/>)}
+            </tbody>
+          </table>
       </div>
     )
   }
 }
 
 
-const Person = ({ name }) => <li>{name}</li>
+const Person = ({ person }) => (
+  <tr>
+    <td>{person.name}</td>
+    <td>{person.phone}</td>
+  </tr>
+)
 
 export default App
