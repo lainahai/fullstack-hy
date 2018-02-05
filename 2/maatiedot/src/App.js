@@ -24,6 +24,10 @@ class App extends React.Component {
     this.setState({filter: event.target.value})
   }
 
+  handleShowSingle = (countryname) => {
+    this.setState({ filter: countryname})
+  }
+
   render() {
     const showCountries = this.state.countries.filter( (country) => (
       country.name.toLowerCase().includes(this.state.filter.toLowerCase())
@@ -50,7 +54,7 @@ class App extends React.Component {
     return (
       <div>
         <FilterInput value={this.state.filter} handleChange={this.handleFilterChange.bind(this)} />
-        <Countries countries={showCountries} />
+        <Countries countries={showCountries} handleClick={this.handleShowSingle} />
       </div>
     )
   }
@@ -65,11 +69,11 @@ const FilterInput = (props) => {
   )
 }
 
-const Countries = ({ countries }) => {
+const Countries = ({ countries, handleClick }) => {
   return (
     <div>
       <ul>
-        {countries.map(country => <li>{country.name}</li>)}
+        {countries.map(country => <li onClick={() => handleClick(country.name)}>{country.name}</li>)}
       </ul>
     </div>
   )
