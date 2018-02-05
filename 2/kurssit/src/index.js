@@ -7,19 +7,20 @@ const Sisalto = (props) => {
   const osat = props.kurssi.osat
   return(
     <div>
-      {osat.map(osa => <Osa key={osa.nimi} osa={osa}/>)}
+      {osat.map(osa => <Osa key={osa.id} osa={osa}/>)}
     </div>
   )
 }
-/*
+
 const Yhteensa = (props) => {
-  const [osa1, osa2, osa3] = props.kurssi.osat
+  const yhteensa = props.kurssi.osat.reduce((yhteensa, osa) => yhteensa + osa.tehtavia, 0)
+  console.log('Tehtavia: ', yhteensa)
   
   return(
-    <p>yhteensä {osa1.tehtavia + osa2.tehtavia + osa3.tehtavia} tehtävää</p>
+    <p>yhteensä {yhteensa} tehtävää</p>
   )
 }
-*/
+
 const Kurssi = (props) => {
 
 
@@ -28,6 +29,7 @@ const Kurssi = (props) => {
     <div>
       <Otsikko kurssi={props.kurssi}/>
       <Sisalto kurssi={props.kurssi}/>
+      <Yhteensa kurssi={props.kurssi}/>
     </div>
   )
 }
@@ -50,6 +52,26 @@ const App = () => {
         nimi: 'Komponenttien tila',
         tehtavia: 14,
         id: 3
+      },
+      {
+        nimi: 'Map',
+        tehtavia: 10,
+        id: 4
+      },
+      {
+        nimi: 'Reduce',
+        tehtavia: 10,
+        id: 5
+      },
+      {
+        nimi: 'Testaus 1',
+        tehtavia: 10,
+        id: 6
+      },
+      {
+        nimi: 'Testaus 2',
+        tehtavia: 10,
+        id: 7
       }
     ]
   }
