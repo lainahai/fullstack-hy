@@ -1,4 +1,6 @@
 import React from 'react';
+import Numerot from './components/Numerot'
+import StateInput from './components/StateInput'
 
 class App extends React.Component {
   constructor(props) {
@@ -53,17 +55,17 @@ class App extends React.Component {
         <h3>Lisää uusi numero</h3>
         <form>
           <div>
-            nimi: 
-            <input 
-              value={this.state.newName} 
-              onChange={this.handleNameChange} 
+            nimi:
+            <StateInput 
+              value={this.state.newName}
+              handleChange={this.handleNameChange}
             />
           </div>
            <div>
             numero:
-            <input 
+            <StateInput 
               value={this.state.newPhone} 
-              onChange={this.handlePhoneChange} 
+              handleChange={this.handlePhoneChange} 
             />
           </div>
           <div>
@@ -73,28 +75,15 @@ class App extends React.Component {
         <h3>Rajaa numeroita</h3>
         <div>
           Etsi nimellä:
-          <input 
+          <StateInput 
             value={this.state.filter}
-            onChange={this.handleFilterChange}
+            handleChange={this.handleFilterChange}
           />
-        </div>
-        <h2>Numerot</h2>
-          <table>
-            <tbody>
-              {filteredPersons.map(person => <Person key={person.name} person={person}/>)}
-            </tbody>
-          </table>
-      </div>
+          </div>
+       <Numerot persons={filteredPersons} />
+       </div>
     )
   }
 }
-
-
-const Person = ({ person }) => (
-  <tr>
-    <td>{person.name}</td>
-    <td>{person.phone}</td>
-  </tr>
-)
 
 export default App
