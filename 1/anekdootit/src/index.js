@@ -11,16 +11,16 @@ class App extends React.Component {
   }
 
   getRandomAnecdote = () => {
-      return () => { 
-        this.setState({ selected: getRandom() })
-      }
+    return () => {
+      this.setState({ selected: getRandom() })
+    }
   }
 
   vote = (index) => {
     const newVotes = addVote(index, this.state.votes)
 
     return () => {
-      this.setState({ 
+      this.setState({
         votes: newVotes
       })
     }
@@ -31,8 +31,8 @@ class App extends React.Component {
     return (
       <div>
         <h1>Anecdotes</h1>
-        <Anecdote anecdotes={anecdotes} selected={this.state.selected} votes={this.state.votes[this.state.selected]} /> 
-        <Button text="Random" handleClick={this.getRandomAnecdote()}/>
+        <Anecdote anecdotes={anecdotes} selected={this.state.selected} votes={this.state.votes[this.state.selected]} />
+        <Button text="Random" handleClick={this.getRandomAnecdote()} />
         <Button text="Vote" handleClick={this.vote(this.state.selected)} />
         <PopularAnecdote anecdotes={anecdotes} votes={this.state.votes} />
       </div>
@@ -51,7 +51,7 @@ const anecdotes = [
 
 const addVote = (voted, votes) => {
   const newVotes = votes.slice()
-  if(newVotes[voted]) {
+  if (newVotes[voted]) {
     newVotes[voted] += 1
   } else {
     newVotes[voted] = 1
@@ -75,7 +75,7 @@ const Anecdote = (props) => {
 }
 
 const Button = (props) => {
-  return(
+  return (
     <button onClick={props.handleClick}>
       {props.text}
     </button>
@@ -83,13 +83,13 @@ const Button = (props) => {
 }
 
 const getIndexOfMaxValue = (arr) => (
-  arr.reduce( (maxSoFar, currentValue, index, array) => currentValue > array[maxSoFar] ? index : maxSoFar, 0 )
+  arr.reduce((maxSoFar, currentValue, index, array) => currentValue > array[maxSoFar] ? index : maxSoFar, 0)
 )
 
 const PopularAnecdote = (props) => {
   const mostPopular = getIndexOfMaxValue(props.votes)
-  
-  if (props.votes[mostPopular] === 0){
+
+  if (props.votes[mostPopular] === 0) {
     return (
       <div>
       </div>
