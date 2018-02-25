@@ -1,15 +1,11 @@
-const http = require('http')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const Blog = require('./models/blog')
 const blogsRouter = require('./controllers/blogs')
 
-
-
-if ( process.env.NODE_ENV !== 'production' ) {
+if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 const mongoUrl = process.env.MONGODB_URI
