@@ -4,7 +4,7 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
-const { filter, blogsInDb, usersInDb, initialBlogs } = require('./test_helper2')
+const { filter, blogsInDb, usersInDb, initialBlogs } = require('./test_helper')
 
 beforeAll(async () => {
   await Blog.remove({})
