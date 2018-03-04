@@ -5,13 +5,22 @@ class Blog extends React.Component {
     super(props)
     this.blog = props.blog
     this.state = {
-      visible: false
+      visible: false,
+      likes: this.blog.likes
     }
   }
 
   toggleVisibility = () => {
     this.setState({ visible: !this.state.visible })
   }
+
+  addLike = (event) => {
+    event.stopPropagation()
+    const newLikes = this.state.likes + 1
+    this.setState({likes: newLikes})
+
+  }
+
 
   render() {
     const blogStyle = {
@@ -43,8 +52,8 @@ class Blog extends React.Component {
               </tr>
               <tr>
                 <td>Likes</td>
-                <td>{this.blog.likes}</td>
-                <td><button>Like</button></td>
+                <td>{this.state.likes}</td>
+                <td><button onClick={this.addLike}>Like</button></td>
               </tr>
               <tr>
                 <td>Added by </td>

@@ -93,8 +93,21 @@ class App extends React.Component {
     }
   }
 
+
+  addLike = async (blog, event) => {
+    event.stopPopagation()
+    try {
+      const updatedBlog = await blogService.update(blog)
+      console.log(updatedBlog)
+      this.showMessage(`You liked ${updatedBlog.title}`)
+    } catch (exception) {
+      this.showError(exception)
+    }
+  }
+
+
   componentDidMount() {
-    blogService.getAll().then((blogs) => this.setState({ blogs }))
+    blogService.getAll().then((blogs) => this.setState({ blogs: blogs.sort((a, b) => b.likes - a.likes)}))
 
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
     if (loggedUserJSON) {
@@ -138,6 +151,7 @@ class App extends React.Component {
       </div>
     )
 
+    //{this.state.blogs.map((blog) => <Blog key={blog._id} blog={blog} handleLike={this.handleLike} />)}
     const blogList = () => (
       <div>
         <h2>blogs</h2>
