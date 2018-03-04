@@ -3,11 +3,10 @@ import React from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import NewBlogForm from './components/NewBlogForm'
+import Notification from './components/Notification'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
-
-
 
 class App extends React.Component {
   constructor(props) {
@@ -19,8 +18,24 @@ class App extends React.Component {
       user: null,
       newTitle: '',
       newUrl: '',
-      newAuthor: ''
+      newAuthor: '',
+      error: null,
+      message: null
     }
+  }
+
+  showMessage = (message) => {
+    this.setState({message: message})
+    setTimeout(() => {
+      this.setState({message: null})      
+    }, 5000)
+  }
+
+  showError = (message) => {
+    this.setState({error: message})
+    setTimeout(() => {
+      this.setState({error: null})      
+    }, 5000)
   }
 
   handleFieldChange = (event) => {
@@ -29,50 +44,51 @@ class App extends React.Component {
 
   login = async (event) => {
     event.preventDefault()
-  
+
     try {
       const user = await loginService.login({
         username: this.state.username,
         password: this.state.password
       })
-      
+
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-      this.setState({ 
+      this.setState({
         username: '',
         password: '',
-        user}
-      )
-    } catch(exception) {
-      console.log('Error: Login failed for some reason...')
+        user
+      })
+    } catch (exception) {
+      this.showError('Invalid username or password')
     }
   }
 
   logout = () => {
     window.localStorage.removeItem('loggedBlogUser')
-    this.setState({user: null})
+    this.setState({ user: null })
   }
 
   createBlog = async (event) => {
     event.preventDefault()
 
     try {
-      const blog = await blogService.create({
-        title: this.state.newTitle,
-        author: this.state.newAuthor,
-        url: this.state.newUrl
-        }, 
+      const blog = await blogService.create(
+        {
+          title: this.state.newTitle,
+          author: this.state.newAuthor,
+          url: this.state.newUrl
+        },
         this.state.user.token
       )
 
-      this.setState({ 
+      this.setState({
         blogs: this.state.blogs.concat([blog]),
         newAuthor: '',
         newTitle: '',
         newUrl: ''
       })
+      this.showMessage(`Blog "${blog.title}" created`)
     } catch (exception) {
-      console.log('Error: Adding blog failed')
-      console.log(exception)
+      this.showError('Error: missing required fields')
     }
   }
 
@@ -82,21 +98,20 @@ class App extends React.Component {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
     if (loggedUserJSON) {
       const loggedUser = JSON.parse(loggedUserJSON)
-      this.setState({user: loggedUser})
+      this.setState({ user: loggedUser })
     }
   }
 
   render() {
-
     const loginForm = () => {
       return (
         <div>
-            <LoginForm
-              username={this.state.username}
-              password={this.state.password}
-              handleChange={this.handleFieldChange}
-              handleSubmit={this.login}
-            />
+          <LoginForm
+            username={this.state.username}
+            password={this.state.password}
+            handleChange={this.handleFieldChange}
+            handleSubmit={this.login}
+          />
         </div>
       )
     }
@@ -129,16 +144,19 @@ class App extends React.Component {
 
     return (
       <div>
+        <Notification 
+          errorMessage={this.state.error}
+          message={this.state.message}
+        />
+
         {this.state.user === null && loginForm()}
 
         {this.state.user !== null && greeting()}
         {this.state.user !== null && newBlogForm()}
         {this.state.user !== null && blogList()}
-        
       </div>
     )
   }
-
 }
 
 export default App

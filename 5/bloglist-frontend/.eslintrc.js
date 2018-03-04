@@ -1,17 +1,18 @@
 module.exports = {
     "env": {
         "es6": true,
-        "node": true
+        "node": true,
+        "browser": true
     },
     "parserOptions": {
         "sourceType": "module",
-        "ecmaVersion": 6,
-        "ecmaFeatures": {
-          "jsx": true
-        }
+        "ecmaVersion": 6
+    },
+    "ecmaFeatures": {
+        "jsx": true
     },
     "plugins": ["react"],
-    "extends": [ "eslint:recommended"],
+    "extends": [ "eslint:recommended", "plugin:react/recommended"],
     "rules": {
         "indent": [
             "error",
@@ -30,11 +31,13 @@ module.exports = {
             "never"
         ],
         "eqeqeq": "error",
-        "no-console": 0
+        "no-console": 0,
+        "react/prop-types": 0
     },
     "globals": {
         "test": true,
         "expect": true,
         "describe": true
-    }
+    },
+    "parser": "babel-eslint"
 };
