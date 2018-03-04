@@ -1,8 +1,12 @@
 import React from 'react'
+
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
+import NewBlogForm from './components/NewBlogForm'
+
 import blogService from './services/blogs'
 import loginService from './services/login'
+
 
 
 class App extends React.Component {
@@ -13,11 +17,13 @@ class App extends React.Component {
       username: '',
       password: '',
       user: null,
-
+      newTitle: '',
+      newUrl: '',
+      newAuthor: ''
     }
   }
 
-  handleLoginFieldChange = (event) => {
+  handleFieldChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
   }
 
@@ -31,7 +37,11 @@ class App extends React.Component {
       })
       
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-      this.setState({ username: '', password: '', user})
+      this.setState({ 
+        username: '',
+        password: '',
+        user}
+      )
     } catch(exception) {
       console.log('Error: Login failed for some reason...')
     }
@@ -40,6 +50,30 @@ class App extends React.Component {
   logout = () => {
     window.localStorage.removeItem('loggedBlogUser')
     this.setState({user: null})
+  }
+
+  createBlog = async (event) => {
+    event.preventDefault()
+
+    try {
+      const blog = await blogService.create({
+        title: this.state.newTitle,
+        author: this.state.newAuthor,
+        url: this.state.newUrl
+        }, 
+        this.state.user.token
+      )
+
+      this.setState({ 
+        blogs: this.state.blogs.concat([blog]),
+        newAuthor: '',
+        newTitle: '',
+        newUrl: ''
+      })
+    } catch (exception) {
+      console.log('Error: Adding blog failed')
+      console.log(exception)
+    }
   }
 
   componentDidMount() {
@@ -58,13 +92,24 @@ class App extends React.Component {
       return (
         <div>
             <LoginForm
-              visible={this.state.visible}
               username={this.state.username}
               password={this.state.password}
-              handleChange={this.handleLoginFieldChange}
+              handleChange={this.handleFieldChange}
               handleSubmit={this.login}
             />
         </div>
+      )
+    }
+
+    const newBlogForm = () => {
+      return (
+        <NewBlogForm
+          title={this.state.newTitle}
+          author={this.state.newAuthor}
+          url={this.state.newUrl}
+          handleChange={this.handleFieldChange}
+          handleSubmit={this.createBlog}
+        />
       )
     }
 
@@ -87,6 +132,7 @@ class App extends React.Component {
         {this.state.user === null && loginForm()}
 
         {this.state.user !== null && greeting()}
+        {this.state.user !== null && newBlogForm()}
         {this.state.user !== null && blogList()}
         
       </div>
