@@ -23,4 +23,4 @@ const update = async (blog) => {
   return response.data
 }
 
-export default { getAll, create}
+export default { getAll, create, update}
