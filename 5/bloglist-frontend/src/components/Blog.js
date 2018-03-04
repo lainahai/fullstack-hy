@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class Blog extends React.Component {
   constructor(props) {
@@ -66,5 +67,6 @@ class Blog extends React.Component {
     )
   }
 }
+
 
 export default Blog
