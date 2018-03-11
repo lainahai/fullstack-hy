@@ -29,7 +29,7 @@ const reducer = (store = initialState, action) => {
     return [...old, { ...voted, votes: voted.votes + 1 }]
   }
   if (action.type === 'CREATE') {
-    return [...store, { content: action.content, id: getId(), votes: 0 }]
+    return [...store, action.newAnecdote]
   }
   if (action.type === 'INIT_ANECDOTES') {
     return action.data
@@ -38,10 +38,10 @@ const reducer = (store = initialState, action) => {
   return store
 }
 
-export const createAnecdote = (content) => {
+export const createAnecdote = (newAnecdote) => {
   return {
     type: 'CREATE',
-    content
+    newAnecdote
   }
 }
 
