@@ -4,7 +4,6 @@ import { showNotification, hideNotification } from '../reducers/notificationRedu
 import { connect } from 'react-redux'
 
 class AnecdoteForm extends React.Component {
-  
   handleSubmit = (e) => {
     e.preventDefault()
     const content = e.target.anecdote.value
@@ -30,7 +29,6 @@ class AnecdoteForm extends React.Component {
     )
   }
 }
-
 
 const mapDispatchToProps = {
   createAnecdote,
