@@ -40,10 +40,11 @@ export const createAnecdote = (content) => {
   }
 }
 
-export const addVote = (id) => {
+export const addVote = (id, content) => {
   return {
     type: 'VOTE',
-    id
+    id,
+    content
   }
 }
 
