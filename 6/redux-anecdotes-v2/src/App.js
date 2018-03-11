@@ -11,7 +11,6 @@ class App extends React.Component {
       <div>
         <h1>Programming anecdotes</h1>
         <Notification />
-        <Filter  />
         <AnecdoteList  />
         <AnecdoteForm  />
       </div>
